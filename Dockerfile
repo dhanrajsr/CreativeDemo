@@ -1,16 +1,8 @@
-# Sets the base image for subsequent instructions
-FROM ubuntu:18.04
-# Sets the working directory in the container  
-WORKDIR /api
-RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev
-# Copies the files to the working directory
-COPY users.csv /api/users.csv
-# Copies the dependency files to the working directory
-COPY requirements.txt /api/requirements.txt
-# Install dependencies
+FROM python:3.8-slim-buster
+WORKDIR /app
+# We copy just the requirements.txt first to leverage Docker cache
+COPY ./requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
-# Copies everything to the working directory
-COPY . /api
-# Command to run on container start    
-CMD [ "python" , "./api.py" ]
+COPY . /app
+ENTRYPOINT [ "python" ]
+CMD [ "api.py" ]
