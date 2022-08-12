@@ -1,0 +1,2 @@
+docker run -d -p 5000:5000 my-app
+Go to your browser and hit the API at http://localhost:5000.
